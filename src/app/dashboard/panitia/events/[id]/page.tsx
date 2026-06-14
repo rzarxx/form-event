@@ -217,16 +217,39 @@ export default function EventManagementPage({
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex items-center space-x-4">
-        <button
-          onClick={() => router.push("/dashboard/panitia/events")}
-          className="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <div>
-          <h1 className="text-2xl font-bold text-white">{event.title}</h1>
-          <p className="text-slate-400">Manajemen Event</p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => router.push("/dashboard/panitia/events")}
+            className="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div>
+            <h1 className="text-2xl font-bold text-white">{event.title}</h1>
+            <p className="text-slate-400">Manajemen Event</p>
+          </div>
+        </div>
+        
+        <div className="flex gap-3">
+          <button
+            onClick={() => {
+              const url = `${window.location.origin}/e/${event.id}`;
+              navigator.clipboard.writeText(url);
+              alert("Link pendaftaran publik berhasil disalin!");
+            }}
+            className="flex items-center px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition-colors text-sm font-medium"
+          >
+            Copy Link
+          </button>
+          <a
+            href={`/e/${event.id}`}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center px-4 py-2 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 border border-indigo-500/20 rounded-xl transition-colors text-sm font-medium"
+          >
+            Lihat Halaman
+          </a>
         </div>
       </div>
 

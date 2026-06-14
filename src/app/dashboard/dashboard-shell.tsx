@@ -29,6 +29,7 @@ export default function DashboardShell({ session, children }: DashboardShellProp
 
   const superAdminLinks = [
     { name: "Overview", href: "/dashboard/super-admin", icon: LayoutDashboard },
+    { name: "Semua Event", href: "/dashboard/super-admin/events", icon: Ticket },
     { name: "Kelola Pengguna", href: "/dashboard/super-admin/users", icon: Users },
     { name: "Pengaturan Sistem", href: "/dashboard/super-admin/settings", icon: Settings },
   ];
