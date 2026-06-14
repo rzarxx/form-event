@@ -18,6 +18,7 @@ export async function GET() {
       freeMaxEvents: 1,
       freeMaxTicketsPerEvent: 3,
       freeCustomFormEnabled: false,
+      proPlanPrice: 99000,
     },
   });
 
@@ -37,7 +38,8 @@ export async function PUT(request: Request) {
       freeQuotaLimit,
       freeMaxEvents,
       freeMaxTicketsPerEvent,
-      freeCustomFormEnabled
+      freeCustomFormEnabled,
+      proPlanPrice
     } = body;
 
     const updateData: Record<string, unknown> = {};
@@ -72,6 +74,9 @@ export async function PUT(request: Request) {
     }
     if (freeCustomFormEnabled !== undefined) {
       updateData.freeCustomFormEnabled = Boolean(freeCustomFormEnabled);
+    }
+    if (proPlanPrice !== undefined) {
+      updateData.proPlanPrice = Number(proPlanPrice);
     }
 
     const settings = await prisma.systemSetting.update({

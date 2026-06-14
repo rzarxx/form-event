@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { LayoutDashboard, Users, Ticket, Settings, LogOut, QrCode, Menu, ChevronLeft } from "lucide-react";
+import { LayoutDashboard, Users, Ticket, Settings, LogOut, QrCode, Menu, ChevronLeft, Receipt } from "lucide-react";
 
 function cn(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(" ");
@@ -31,6 +31,7 @@ export default function DashboardShell({ session, children }: DashboardShellProp
     { name: "Overview", href: "/dashboard/super-admin", icon: LayoutDashboard },
     { name: "Semua Event", href: "/dashboard/super-admin/events", icon: Ticket },
     { name: "Kelola Pengguna", href: "/dashboard/super-admin/users", icon: Users },
+    { name: "Semua Transaksi", href: "/dashboard/super-admin/transactions", icon: Receipt },
     { name: "Pengaturan Sistem", href: "/dashboard/super-admin/settings", icon: Settings },
   ];
 
@@ -38,6 +39,7 @@ export default function DashboardShell({ session, children }: DashboardShellProp
     { name: "Dashboard", href: "/dashboard/panitia", icon: LayoutDashboard },
     { name: "Event Saya", href: "/dashboard/panitia/events", icon: Ticket },
     { name: "Akun Scanner", href: "/dashboard/panitia/scanners", icon: Users },
+    { name: "Profil & Billing", href: "/dashboard/panitia/profile", icon: Settings },
   ];
 
   const scannerLinks = [

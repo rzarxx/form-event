@@ -13,6 +13,12 @@ model User {
   email          String      @unique
   password       String
   name           String?
+  phone          String?     @unique
+  isPhoneVerified Boolean    @default(false)
+  otpCode        String?
+  otpExpiry      DateTime?
+  plan           String      @default("FREE") // "FREE", "PRO", "MITRA"
+  planExpiry     DateTime?
   referredByCode String?     // Menyimpan kode referral saat mendaftar
   
   // Hubungan antara Scanner dan Panitia
@@ -22,6 +28,7 @@ model User {
   
   events         Event[]
   referrals      Referral[]  // Jika user ini adalah MITRA
+  subscriptionTxs SubscriptionTransaction[]
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 }
@@ -61,6 +68,7 @@ model SystemSetting {
   freeMaxEvents          Int      @default(1)
   freeMaxTicketsPerEvent Int      @default(3)
   freeCustomFormEnabled  Boolean  @default(false)
+  proPlanPrice           Decimal  @default(99000) // Harga upgrade ke Pro
   updatedAt              DateTime @updatedAt
 }
 
@@ -93,6 +101,20 @@ model Transaction {
   qrSignature      String   @unique // Anti-Tamper HMAC
   checkInStatus    Boolean  @default(false)
   formData         Json?    // Data formulir kustom
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model SubscriptionTransaction {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  plan             String   // "PRO"
+  amount           Decimal
+  paymentMethod    String?
+  paymentRef       String?  @unique // Tripay Reference
+  paymentStatus    String   // "PENDING" | "SUCCESS" | "FAILED"
+  checkoutUrl      String?  @db.Text
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 }

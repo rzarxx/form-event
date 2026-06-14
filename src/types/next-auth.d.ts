@@ -5,12 +5,16 @@ declare module "next-auth" {
     user: {
       id: string;
       role: string;
+      isPhoneVerified?: boolean;
+      plan?: string;
     } & DefaultSession["user"];
   }
 
   interface User {
     id: string;
     role: string;
+    isPhoneVerified?: boolean;
+    plan?: string;
   }
 }
 

@@ -31,15 +31,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: user.email,
           name: user.name,
           role: user.role,
+          isPhoneVerified: user.isPhoneVerified,
+          plan: user.plan,
         };
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.isPhoneVerified = user.isPhoneVerified;
+        token.plan = user.plan;
+      }
+      if (trigger === "update" && session) {
+        if (session.isPhoneVerified !== undefined) token.isPhoneVerified = session.isPhoneVerified;
+        if (session.plan !== undefined) token.plan = session.plan;
       }
       return token;
     },
@@ -47,6 +55,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        session.user.isPhoneVerified = token.isPhoneVerified as boolean;
+        session.user.plan = token.plan as string;
       }
       return session;
     },

@@ -26,27 +26,52 @@ export async function POST(request: Request) {
 
     if (data.status === 'PAID' || data.status === 'SUCCESS') {
       const paymentRef = data.reference;
+      const merchantRef = data.merchant_ref;
 
-      const transaction = await prisma.transaction.findFirst({
-        where: { paymentRef },
-      });
-
-      if (transaction && transaction.paymentStatus !== 'SUCCESS') {
-        const ticketCode = transaction.ticketCode;
-        
-        // Generate a real qrSignature (e.g., HMAC of ticketCode)
-        const qrSignature = crypto
-          .createHmac('sha256', privateKey)
-          .update(ticketCode)
-          .digest('hex');
-
-        await prisma.transaction.update({
-          where: { id: transaction.id },
-          data: {
-            paymentStatus: 'SUCCESS',
-            qrSignature,
-          },
+      if (merchantRef && merchantRef.startsWith('SUB-')) {
+        const subTx = await prisma.subscriptionTransaction.findFirst({
+          where: { paymentRef },
         });
+
+        if (subTx && subTx.paymentStatus !== 'SUCCESS') {
+          await prisma.subscriptionTransaction.update({
+            where: { id: subTx.id },
+            data: { paymentStatus: 'SUCCESS' },
+          });
+
+          const expiry = new Date();
+          expiry.setFullYear(expiry.getFullYear() + 1); // 1 Year subscription
+
+          await prisma.user.update({
+            where: { id: subTx.userId },
+            data: {
+              plan: subTx.plan,
+              planExpiry: expiry,
+            },
+          });
+        }
+      } else {
+        const transaction = await prisma.transaction.findFirst({
+          where: { paymentRef },
+        });
+
+        if (transaction && transaction.paymentStatus !== 'SUCCESS') {
+          const ticketCode = transaction.ticketCode;
+          
+          // Generate a real qrSignature (e.g., HMAC of ticketCode)
+          const qrSignature = crypto
+            .createHmac('sha256', privateKey)
+            .update(ticketCode)
+            .digest('hex');
+
+          await prisma.transaction.update({
+            where: { id: transaction.id },
+            data: {
+              paymentStatus: 'SUCCESS',
+              qrSignature,
+            },
+          });
+        }
       }
     }
 
