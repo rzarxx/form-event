@@ -68,7 +68,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { title, description } = body;
+    const { title, description, formSchema } = body;
 
     const updated = await prisma.event.update({
       where: { id },
@@ -76,6 +76,9 @@ export async function PUT(
         ...(title !== undefined && { title: title.trim() }),
         ...(description !== undefined && {
           description: description?.trim() || null,
+        }),
+        ...(formSchema !== undefined && {
+          formSchema: formSchema,
         }),
       },
     });
