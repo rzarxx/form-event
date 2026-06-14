@@ -16,9 +16,9 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 pb-20">
+    <div className="min-h-screen bg-gray-50 text-gray-900 pb-20">
       {/* Banner */}
-      <div className="relative w-full h-64 md:h-96 bg-slate-900">
+      <div className="relative w-full h-64 md:h-96 bg-gray-200">
         {event.bannerUrl ? (
           <Image
             src={event.bannerUrl}
@@ -28,30 +28,30 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
             priority
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-slate-900 border-b border-slate-800">
-            <Calendar className="w-16 h-16 text-slate-700" />
+          <div className="w-full h-full flex items-center justify-center bg-gray-200 border-b border-gray-300">
+            <Calendar className="w-16 h-16 text-gray-400" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-50 via-gray-50/40 to-transparent"></div>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10">
         {/* Event Header */}
-        <div className="bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-3xl p-6 md:p-10 shadow-xl">
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
+        <div className="bg-white border border-gray-200 rounded-3xl p-6 md:p-10 shadow-sm">
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4">
             {event.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-4 text-slate-400 text-sm md:text-base">
+          <div className="flex flex-wrap items-center gap-4 text-gray-500 text-sm md:text-base">
             {/* You can add more event details here if available in the schema */}
             <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-indigo-400" />
+              <Calendar className="w-5 h-5 text-indigo-500" />
               <span>See details below</span>
             </div>
           </div>
           
-          <div className="mt-8 prose prose-invert max-w-none">
-            <h3 className="text-xl font-semibold text-white mb-3">About the Event</h3>
-            <p className="text-slate-300 leading-relaxed whitespace-pre-wrap">
+          <div className="mt-8 prose max-w-none">
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">About the Event</h3>
+            <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">
               {event.description}
             </p>
           </div>
@@ -61,7 +61,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
         <div className="mt-12">
           <div className="flex items-center gap-3 mb-8">
             <TicketIcon className="w-8 h-8 text-emerald-400" />
-            <h2 className="text-2xl md:text-3xl font-bold text-white">Tickets</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Tickets</h2>
           </div>
 
           {event.tickets && event.tickets.length > 0 ? (
@@ -72,28 +72,28 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                 return (
                   <div 
                     key={ticket.id} 
-                    className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-slate-700 transition-colors duration-200"
+                    className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col justify-between hover:border-gray-300 shadow-sm transition-colors duration-200"
                   >
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-2">{ticket.name}</h3>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{ticket.name}</h3>
                       <div className="flex items-end gap-2 mb-4">
-                        <span className="text-3xl font-bold text-emerald-400">
+                        <span className="text-3xl font-bold text-emerald-600">
                           {Number(ticket.price) === 0 ? "FREE" : `Rp ${Number(ticket.price).toLocaleString("id-ID")}`}
                         </span>
                       </div>
                       
                       <div className="space-y-2 mb-6">
                         <div className="flex justify-between text-sm">
-                          <span className="text-slate-400">Quota</span>
-                          <span className="text-slate-200">{ticket.quota} tickets</span>
+                          <span className="text-gray-500">Quota</span>
+                          <span className="text-gray-900">{ticket.quota} tickets</span>
                         </div>
-                        <div className="w-full bg-slate-800 rounded-full h-2">
+                        <div className="w-full bg-gray-200 rounded-full h-2">
                           <div 
                             className="bg-indigo-500 h-2 rounded-full" 
                             style={{ width: `${Math.min(100, (ticket.sold / ticket.quota) * 100)}%` }}
                           ></div>
                         </div>
-                        <div className="flex justify-between text-xs text-slate-500">
+                        <div className="flex justify-between text-xs text-gray-500">
                           <span>{ticket.sold} Sold</span>
                           <span>{ticket.quota - ticket.sold} Left</span>
                         </div>
@@ -104,7 +104,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                       href={`/checkout/${event.id}?ticketId=${ticket.id}`}
                       className={`block w-full py-3 px-4 text-center rounded-xl font-semibold transition-all duration-200 ${
                         isSoldOut 
-                          ? "bg-slate-800 text-slate-500 cursor-not-allowed pointer-events-none"
+                          ? "bg-gray-100 text-gray-400 cursor-not-allowed pointer-events-none"
                           : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
                       }`}
                       aria-disabled={isSoldOut}
@@ -117,10 +117,10 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
               })}
             </div>
           ) : (
-            <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-10 text-center">
-              <TicketIcon className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-slate-300 mb-2">No tickets available</h3>
-              <p className="text-slate-500">Tickets for this event have not been released yet.</p>
+            <div className="bg-white border border-gray-200 rounded-2xl p-10 text-center shadow-sm">
+              <TicketIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No tickets available</h3>
+              <p className="text-gray-500">Tickets for this event have not been released yet.</p>
             </div>
           )}
         </div>

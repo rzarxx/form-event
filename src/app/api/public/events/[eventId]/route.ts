@@ -16,7 +16,12 @@ export async function GET(
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
 
-    return NextResponse.json(event);
+    const systemSetting = await prisma.systemSetting.findUnique({
+      where: { id: "GLOBAL" },
+    });
+    const platformFee = systemSetting?.platformFee ? Number(systemSetting.platformFee) : 0;
+
+    return NextResponse.json({ ...event, platformFee });
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch event" },

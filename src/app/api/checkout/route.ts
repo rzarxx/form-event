@@ -59,6 +59,11 @@ export async function POST(request: Request) {
           price: ticketPrice,
           quantity: 1,
         },
+        ...(platformFee > 0 ? [{
+          name: "Platform Fee",
+          price: platformFee,
+          quantity: 1,
+        }] : [])
       ],
       signature,
     };

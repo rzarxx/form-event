@@ -3,23 +3,23 @@ import { ArrowRight, Ticket, ShieldCheck, Zap, Users, BarChart3, QrCode } from "
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 font-sans selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-indigo-500/30">
       {/* Navbar */}
-      <nav className="fixed w-full z-50 border-b border-slate-800/50 backdrop-blur-xl bg-slate-950/80 transition-all">
+      <nav className="fixed w-full z-50 border-b border-gray-200/50 backdrop-blur-xl bg-white/80 transition-all">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-emerald-500 flex items-center justify-center">
               <Ticket className="h-5 w-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-white tracking-tight">
+            <span className="text-xl font-bold text-gray-900 tracking-tight">
               CampusTicketing
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+            <Link href="/login" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Masuk
             </Link>
-            <Link href="/register" className="px-5 py-2.5 rounded-full text-sm font-medium bg-white text-slate-950 hover:bg-slate-200 transition-all shadow-lg shadow-white/10">
+            <Link href="/register" className="px-5 py-2.5 rounded-full text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 transition-all shadow-lg shadow-gray-900/10">
               Mulai Gratis
             </Link>
           </div>
@@ -38,7 +38,7 @@ export default function LandingPage() {
               Khusus Kampus & Organisasi
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
             Tinggalkan cara lama mengelola event. Kami menyediakan sistem tiket digital, pembayaran otomatis (QRIS), dan aplikasi scanner khusus panitia dalam satu platform terpadu.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -46,7 +46,7 @@ export default function LandingPage() {
               Buat Event Pertama Anda
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link href="#features" className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-medium bg-slate-800 hover:bg-slate-700 text-white transition-all flex items-center justify-center">
+            <Link href="#features" className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-medium bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all flex items-center justify-center">
               Pelajari Cara Kerjanya
             </Link>
           </div>
@@ -54,11 +54,11 @@ export default function LandingPage() {
       </section>
 
       {/* Features Detail */}
-      <section id="features" className="py-24 bg-slate-900/50 border-y border-slate-800">
+      <section id="features" className="py-24 bg-white border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Fitur Lengkap Untuk Panitia</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">Kami merancang sistem ini untuk mempermudah tugas divisi acara, humas, hingga keamanan.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Fitur Lengkap Untuk Panitia</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Kami merancang sistem ini untuk mempermudah tugas divisi acara, humas, hingga keamanan.</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -70,12 +70,12 @@ export default function LandingPage() {
               { icon: BarChart3, title: "Laporan Real-time", desc: "Pantau jumlah tiket terjual, pendapatan, dan peserta yang sudah check-in secara langsung (real-time)." },
               { icon: ShieldCheck, title: "Keamanan Tingkat Tinggi", desc: "QR Code dilengkapi dengan Signature kriptografi anti-palsu yang di-generate khusus per peserta." }
             ].map((f, i) => (
-              <div key={i} className="p-8 rounded-2xl bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-colors">
-                <div className="w-12 h-12 rounded-lg bg-indigo-500/10 flex items-center justify-center mb-6">
-                  <f.icon className="h-6 w-6 text-indigo-400" />
+              <div key={i} className="p-8 rounded-2xl bg-white border border-gray-200 hover:border-indigo-500/50 shadow-sm transition-colors">
+                <div className="w-12 h-12 rounded-lg bg-indigo-50 flex items-center justify-center mb-6">
+                  <f.icon className="h-6 w-6 text-indigo-600" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-slate-100">{f.title}</h3>
-                <p className="text-slate-400 leading-relaxed">{f.desc}</p>
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">{f.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -87,16 +87,16 @@ export default function LandingPage() {
          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none" />
          
          <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Tanpa Biaya Langganan Bulanan</h2>
-            <p className="text-xl text-slate-400 mb-10">Anda hanya dikenakan biaya layanan administrasi per tiket terjual. Cocok untuk semua skala event kampus Anda.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Tanpa Biaya Langganan Bulanan</h2>
+            <p className="text-xl text-gray-600 mb-10">Anda hanya dikenakan biaya layanan administrasi per tiket terjual. Cocok untuk semua skala event kampus Anda.</p>
             
-            <div className="p-8 rounded-3xl bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 shadow-2xl relative overflow-hidden">
+            <div className="p-8 rounded-3xl bg-white border border-gray-200 shadow-sm relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-emerald-500/5" />
               <div className="relative z-10">
-                <div className="text-5xl font-extrabold text-white mb-2">Rp 2.000 <span className="text-lg font-medium text-slate-400">/ tiket berbayar</span></div>
-                <p className="text-slate-300 mb-8 mt-4">Gratis 100% untuk event atau pendaftaran tidak berbayar (Free Event).</p>
+                <div className="text-5xl font-extrabold text-gray-900 mb-2">Rp 2.000 <span className="text-lg font-medium text-gray-500">/ tiket berbayar</span></div>
+                <p className="text-gray-600 mb-8 mt-4">Gratis 100% untuk event atau pendaftaran tidak berbayar (Free Event).</p>
                 
-                <Link href="/register" className="block w-full py-4 rounded-xl font-bold bg-white text-slate-900 hover:bg-slate-200 transition-colors">
+                <Link href="/register" className="block w-full py-4 rounded-xl font-bold bg-gray-900 text-white hover:bg-gray-800 transition-colors">
                   Mulai Gunakan Sekarang
                 </Link>
               </div>
@@ -105,7 +105,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 text-center text-slate-500 border-t border-slate-800/50 text-sm">
+      <footer className="py-8 text-center text-gray-500 border-t border-gray-200/50 text-sm">
         <p>&copy; 2026 CampusTicketing by RezzDev. All rights reserved.</p>
       </footer>
     </div>

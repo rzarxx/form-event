@@ -17,6 +17,7 @@ type Event = {
   bannerUrl: string | null;
   formSchema: FormSchemaField[] | null;
   tickets: Ticket[];
+  platformFee?: number;
 };
 
 type Ticket = {
@@ -55,7 +56,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const platformFee = 2000;
+  const platformFee = event?.platformFee || 0;
 
   useEffect(() => {
     async function loadData() {
@@ -143,7 +144,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
       </div>
     );
@@ -151,11 +152,11 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
 
   if (error && !event) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center text-gray-900">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-2">Error</h2>
-          <p className="text-slate-400">{error}</p>
+          <p className="text-gray-500">{error}</p>
         </div>
       </div>
     );
@@ -167,14 +168,14 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
   const total = ticketPrice + platformFee;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 text-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Main Form Area */}
         <div className="lg:col-span-2 space-y-8">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white mb-2">Checkout</h1>
-            <p className="text-slate-400">Complete your details to finish the registration.</p>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Checkout</h1>
+            <p className="text-gray-600">Complete your details to finish the registration.</p>
           </div>
 
           {error && (
@@ -186,44 +187,44 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
 
           <form id="checkout-form" onSubmit={handleSubmit} className="space-y-8">
             {/* Buyer Details */}
-            <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 md:p-8">
-              <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm font-bold">1</div>
+            <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-sm">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold">1</div>
                 Your Information
               </h2>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
+                    className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
                     placeholder="John Doe"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-1">Email Address</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
                     <input
                       type="email"
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
+                      className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
                       placeholder="john@example.com"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-1">Phone Number</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                     <input
                       type="tel"
                       required
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
+                      className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
                       placeholder="08123456789"
                     />
                   </div>
@@ -231,11 +232,11 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
 
                 {/* Dynamic Fields */}
                 {event?.formSchema && event.formSchema.length > 0 && (
-                  <div className="pt-4 mt-4 border-t border-slate-800 space-y-4">
-                    <h3 className="text-md font-medium text-slate-200 mb-4">Additional Information</h3>
+                  <div className="pt-4 mt-4 border-t border-gray-200 space-y-4">
+                    <h3 className="text-md font-medium text-gray-900 mb-4">Additional Information</h3>
                     {event.formSchema.map((field, idx) => (
                       <div key={idx}>
-                        <label className="block text-sm font-medium text-slate-300 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
                           {field.label}
                         </label>
                         <input
@@ -243,7 +244,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
                           required
                           value={formData[field.name] || ""}
                           onChange={(e) => handleDynamicChange(field.name, e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
+                          className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
                           placeholder={field.label}
                         />
                       </div>
@@ -254,9 +255,9 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
             </div>
 
             {/* Payment Methods */}
-            <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 md:p-8">
-              <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm font-bold">2</div>
+            <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-sm">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold">2</div>
                 Payment Method
               </h2>
 
@@ -268,32 +269,31 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
                       onClick={() => setMethod(ch.code)}
                       className={`relative cursor-pointer rounded-xl border p-4 flex items-center gap-4 transition-all duration-200 ${
                         method === ch.code
-                          ? "bg-indigo-500/10 border-indigo-500"
-                          : "bg-slate-950 border-slate-800 hover:border-slate-700"
+                          ? "bg-indigo-50 border-indigo-500"
+                          : "bg-white border-gray-200 hover:border-gray-300"
                       }`}
                     >
                       {method === ch.code && (
                         <div className="absolute top-2 right-2">
-                          <CheckCircle2 className="w-5 h-5 text-indigo-500" />
+                          <CheckCircle2 className="w-5 h-5 text-indigo-600" />
                         </div>
                       )}
-                      <div className="w-16 h-10 relative bg-white rounded-md p-1 flex-shrink-0">
-                        <Image
+                      <div className="w-16 h-10 relative bg-white rounded-md p-1 flex-shrink-0 border border-gray-100 flex items-center justify-center">
+                        <img
                           src={ch.icon_url}
                           alt={ch.name}
-                          fill
-                          className="object-contain p-1"
+                          className="object-contain p-1 max-w-full max-h-full"
                         />
                       </div>
                       <div>
-                        <p className="font-medium text-slate-200 text-sm">{ch.name}</p>
-                        <p className="text-xs text-slate-500">{ch.group}</p>
+                        <p className="font-medium text-gray-900 text-sm">{ch.name}</p>
+                        <p className="text-xs text-gray-500">{ch.group}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-6 text-slate-500">
+                <div className="text-center py-6 text-gray-500">
                   <p>Loading payment methods...</p>
                 </div>
               )}
@@ -303,21 +303,21 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
 
         {/* Sidebar Summary */}
         <div className="lg:col-span-1">
-          <div className="bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-6 sticky top-8">
-            <h3 className="text-lg font-bold text-white mb-6">Order Summary</h3>
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 sticky top-8 shadow-sm">
+            <h3 className="text-lg font-bold text-gray-900 mb-6">Order Summary</h3>
             
             {event && (
-              <div className="flex gap-4 mb-6 pb-6 border-b border-slate-800">
-                <div className="w-16 h-16 bg-slate-800 rounded-xl flex-shrink-0 relative overflow-hidden">
+              <div className="flex gap-4 mb-6 pb-6 border-b border-gray-200">
+                <div className="w-16 h-16 bg-gray-100 rounded-xl flex-shrink-0 relative overflow-hidden">
                   {event.bannerUrl ? (
                     <Image src={event.bannerUrl} alt="Event" fill className="object-cover" />
                   ) : (
-                    <Calendar className="w-8 h-8 text-slate-600 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+                    <Calendar className="w-8 h-8 text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
                   )}
                 </div>
                 <div>
-                  <h4 className="font-medium text-slate-200 line-clamp-2">{event.title}</h4>
-                  <div className="flex items-center gap-1 mt-1 text-slate-500 text-sm">
+                  <h4 className="font-medium text-gray-900 line-clamp-2">{event.title}</h4>
+                  <div className="flex items-center gap-1 mt-1 text-gray-500 text-sm">
                     <TicketIcon className="w-4 h-4" />
                     <span>{ticket?.name}</span>
                   </div>
@@ -326,22 +326,22 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
             )}
 
             <div className="space-y-3 mb-6 text-sm">
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-gray-600">
                 <span>Ticket Price</span>
-                <span className="font-medium text-white">
+                <span className="font-medium text-gray-900">
                   {ticketPrice === 0 ? "FREE" : `Rp ${ticketPrice.toLocaleString("id-ID")}`}
                 </span>
               </div>
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-gray-600">
                 <span>Platform Fee</span>
-                <span className="font-medium text-white">Rp {platformFee.toLocaleString("id-ID")}</span>
+                <span className="font-medium text-gray-900">Rp {platformFee.toLocaleString("id-ID")}</span>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-800 mb-8">
+            <div className="pt-4 border-t border-gray-200 mb-8">
               <div className="flex justify-between items-center">
-                <span className="text-base font-medium text-slate-200">Total Payment</span>
-                <span className="text-2xl font-bold text-emerald-400">
+                <span className="text-base font-medium text-gray-900">Total Payment</span>
+                <span className="text-2xl font-bold text-emerald-600">
                   Rp {total.toLocaleString("id-ID")}
                 </span>
               </div>
@@ -362,7 +362,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
                 "Pay Now"
               )}
             </button>
-            <p className="text-center text-xs text-slate-500 mt-4">
+            <p className="text-center text-xs text-gray-500 mt-4">
               By proceeding, you agree to our Terms & Conditions
             </p>
           </div>

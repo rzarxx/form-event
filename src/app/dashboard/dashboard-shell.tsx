@@ -48,19 +48,19 @@ export default function DashboardShell({ session, children }: DashboardShellProp
     role === "SUPER_ADMIN" ? superAdminLinks : role === "PANITIA" ? panitiaLinks : role === "SCANNER" ? scannerLinks : [];
 
   return (
-    <div className="flex h-screen bg-slate-950 overflow-hidden text-slate-50">
+    <div className="flex h-screen bg-gray-50 overflow-hidden text-gray-900">
       {/* Mobile Sidebar Overlay */}
       {isMobileOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden" 
+          className="fixed inset-0 bg-gray-900/50 z-40 md:hidden" 
           onClick={() => setIsMobileOpen(false)}
         />
       )}
 
-      {/* Sidebar - Glassmorphism */}
+      {/* Sidebar */}
       <aside 
         className={cn(
-          "flex-shrink-0 flex flex-col backdrop-blur-2xl bg-slate-900/80 border-r border-slate-800 relative z-50 transition-all duration-300 absolute md:relative h-full",
+          "flex-shrink-0 flex flex-col bg-white border-r border-gray-200 relative z-50 transition-all duration-300 absolute md:relative h-full",
           isCollapsed ? "w-20" : "w-64",
           isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
@@ -68,28 +68,28 @@ export default function DashboardShell({ session, children }: DashboardShellProp
         {/* Toggle Button for Desktop */}
         <button 
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="hidden md:flex absolute -right-3 top-6 bg-slate-800 hover:bg-indigo-600 border border-slate-700 text-white p-1 rounded-full z-50 transition-colors"
+          className="hidden md:flex absolute -right-3 top-6 bg-white hover:bg-gray-50 border border-gray-200 text-gray-500 hover:text-gray-900 p-1 rounded-full z-50 transition-colors shadow-sm"
         >
           <ChevronLeft className={cn("h-4 w-4 transition-transform", isCollapsed && "rotate-180")} />
         </button>
 
         {/* Logo */}
-        <div className={cn("h-16 flex items-center border-b border-slate-800/50 transition-all overflow-hidden", isCollapsed ? "px-0 justify-center" : "px-6")}>
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-emerald-400 whitespace-nowrap">
+        <div className={cn("h-16 flex items-center border-b border-gray-200 transition-all overflow-hidden", isCollapsed ? "px-0 justify-center" : "px-6")}>
+          <span className="text-xl font-bold text-gray-900 whitespace-nowrap">
             {isCollapsed ? "CT" : "CampusTicketing"}
           </span>
         </div>
 
         {/* User Info */}
-        <div className={cn("p-6 border-b border-slate-800/50 transition-all", isCollapsed && "p-4 flex justify-center")}>
+        <div className={cn("p-6 border-b border-gray-200 transition-all", isCollapsed && "p-4 flex justify-center")}>
           <div className={cn("flex items-center", isCollapsed ? "justify-center" : "gap-3")}>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-emerald-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20 shrink-0">
+            <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center font-bold text-indigo-700 shrink-0 ring-1 ring-inset ring-indigo-700/10">
               {session?.user?.name?.charAt(0).toUpperCase() || "U"}
             </div>
             {!isCollapsed && (
               <div className="flex flex-col overflow-hidden">
-                <span className="text-sm font-semibold truncate w-36">{session?.user?.name || "User"}</span>
-                <span className="text-xs text-slate-400 font-medium truncate w-36">{role}</span>
+                <span className="text-sm font-semibold text-gray-900 truncate w-36">{session?.user?.name || "User"}</span>
+                <span className="text-xs text-gray-500 font-medium truncate w-36">{role}</span>
               </div>
             )}
           </div>
@@ -109,11 +109,11 @@ export default function DashboardShell({ session, children }: DashboardShellProp
                   "flex items-center gap-3 py-2.5 rounded-lg transition-all duration-300 text-sm font-medium group whitespace-nowrap",
                   isCollapsed ? "px-0 justify-center" : "px-3",
                   isActive
-                    ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-inner"
-                    : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                    ? "bg-indigo-50 text-indigo-600"
+                    : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                 )}
               >
-                <Icon className={cn("h-5 w-5 shrink-0", isActive ? "text-indigo-400" : "text-slate-500 group-hover:text-slate-300")} />
+                <Icon className={cn("h-5 w-5 shrink-0", isActive ? "text-indigo-600" : "text-gray-400 group-hover:text-gray-500")} />
                 {!isCollapsed && <span>{link.name}</span>}
               </Link>
             );
@@ -121,36 +121,32 @@ export default function DashboardShell({ session, children }: DashboardShellProp
         </nav>
 
         {/* Logout */}
-        <div className="p-4 mt-auto border-t border-slate-800/50">
+        <div className="p-4 mt-auto border-t border-gray-200">
           <button
             onClick={() => signOut({ callbackUrl: "/login" })}
             title={isCollapsed ? "Keluar" : undefined}
             className={cn(
-              "flex items-center gap-3 py-2.5 w-full rounded-lg text-sm font-medium text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-colors group",
+              "flex items-center gap-3 py-2.5 w-full rounded-lg text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors group",
               isCollapsed ? "px-0 justify-center" : "px-3"
             )}
           >
-            <LogOut className="h-5 w-5 shrink-0 text-slate-500 group-hover:text-red-400" />
+            <LogOut className="h-5 w-5 shrink-0 text-gray-400 group-hover:text-red-600" />
             {!isCollapsed && <span>Keluar</span>}
           </button>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 relative flex flex-col min-w-0 overflow-hidden">
-        {/* Dynamic Background */}
-        <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-600/10 blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-600/10 blur-[150px] pointer-events-none" />
-
+      <main className="flex-1 relative flex flex-col min-w-0 overflow-hidden bg-gray-50">
         {/* Topbar */}
-        <header className="h-16 flex-shrink-0 backdrop-blur-md border-b border-slate-800/30 flex items-center px-4 md:px-8 z-10 gap-4">
+        <header className="h-16 flex-shrink-0 bg-white border-b border-gray-200 flex items-center px-4 md:px-8 z-10 gap-4 shadow-sm">
           <button 
-            className="md:hidden text-slate-400 hover:text-white"
+            className="md:hidden text-gray-500 hover:text-gray-900"
             onClick={() => setIsMobileOpen(true)}
           >
             <Menu className="h-6 w-6" />
           </button>
-          <h2 className="text-lg font-semibold text-slate-200 capitalize">
+          <h2 className="text-lg font-semibold text-gray-900 capitalize">
             {pathname.split("/").pop()?.replace(/-/g, " ") || "Dashboard"}
           </h2>
         </header>

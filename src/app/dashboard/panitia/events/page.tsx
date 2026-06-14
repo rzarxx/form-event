@@ -97,14 +97,14 @@ export default function PanitiaEventsPage() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-slate-100">Event Saya</h2>
-          <p className="text-slate-400 text-sm mt-1">
+          <h2 className="text-2xl font-bold text-gray-900">Event Saya</h2>
+          <p className="text-gray-500 text-sm mt-1">
             Kelola semua event yang Anda buat
           </p>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-indigo-500/25 transition-all hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98]"
+          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg shadow-sm transition-all"
         >
           <PlusCircle className="h-4 w-4" />
           Buat Event Baru
@@ -113,7 +113,7 @@ export default function PanitiaEventsPage() {
 
       {/* Error Toast */}
       {error && (
-        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-center justify-between">
           <span>{error}</span>
           <button onClick={() => setError("")}>
             <X className="h-4 w-4" />
@@ -124,26 +124,26 @@ export default function PanitiaEventsPage() {
       {/* Loading State */}
       {loading && (
         <div className="flex items-center justify-center py-20">
-          <Loader2 className="h-8 w-8 animate-spin text-indigo-400" />
+          <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
         </div>
       )}
 
       {/* Empty State */}
       {!loading && events.length === 0 && (
-        <div className="p-12 rounded-2xl bg-slate-900/50 border border-slate-800 backdrop-blur-sm text-center">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-emerald-500/20 flex items-center justify-center">
-            <Sparkles className="h-10 w-10 text-indigo-400" />
+        <div className="p-12 rounded-xl bg-white ring-1 ring-gray-950/5 shadow-sm text-center">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-indigo-50 flex items-center justify-center">
+            <Sparkles className="h-10 w-10 text-indigo-600" />
           </div>
-          <h3 className="text-xl font-semibold text-slate-200 mb-2">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
             Belum Ada Event
           </h3>
-          <p className="text-slate-400 text-sm max-w-md mx-auto mb-6">
+          <p className="text-gray-500 text-sm max-w-md mx-auto mb-6">
             Anda belum memiliki event apa pun. Mulai buat event pertama Anda dan
             jangkau lebih banyak peserta!
           </p>
           <button
             onClick={() => setShowModal(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-emerald-500 text-white text-sm font-semibold rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all hover:scale-[1.02]"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg shadow-sm transition-all"
           >
             <PlusCircle className="h-4 w-4" />
             Buat Event Pertama
@@ -158,24 +158,15 @@ export default function PanitiaEventsPage() {
           {events.map((event, index) => (
             <div
               key={event.id}
-              className="group p-6 rounded-2xl bg-slate-900/50 border border-slate-800 backdrop-blur-sm relative overflow-hidden transition-all duration-300 hover:border-slate-700 hover:bg-slate-900/70 hover:shadow-xl hover:shadow-indigo-500/5"
+              className="group p-6 rounded-xl bg-white ring-1 ring-gray-950/5 shadow-sm relative overflow-hidden transition-all hover:shadow-md"
             >
-              {/* Decorative gradient blob */}
-              <div
-                className={`absolute -top-10 -right-10 w-32 h-32 rounded-full blur-[50px] transition-opacity duration-300 opacity-0 group-hover:opacity-100 ${
-                  index % 2 === 0
-                    ? "bg-indigo-500/20"
-                    : "bg-emerald-500/20"
-                }`}
-              />
-
               {/* Header */}
               <div className="relative">
-                <h3 className="text-lg font-semibold text-slate-100 mb-1 group-hover:text-white transition-colors line-clamp-1">
+                <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-1">
                   {event.title}
                 </h3>
                 {event.description && (
-                  <p className="text-sm text-slate-400 line-clamp-2 mb-4">
+                  <p className="text-sm text-gray-500 line-clamp-2 mb-4">
                     {event.description}
                   </p>
                 )}
@@ -184,43 +175,43 @@ export default function PanitiaEventsPage() {
 
               {/* Stats Row */}
               <div className="relative grid grid-cols-3 gap-3 mb-4">
-                <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                <div className="p-3 rounded-lg bg-gray-50 ring-1 ring-gray-950/5">
                   <div className="flex items-center gap-1.5 mb-1">
-                    <Ticket className="h-3.5 w-3.5 text-indigo-400" />
-                    <span className="text-xs text-slate-400">Tiket</span>
+                    <Ticket className="h-3.5 w-3.5 text-indigo-600" />
+                    <span className="text-xs text-gray-500">Tiket</span>
                   </div>
-                  <p className="text-lg font-bold text-slate-100">
+                  <p className="text-lg font-bold text-gray-900">
                     {event.ticketCount}
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                <div className="p-3 rounded-lg bg-gray-50 ring-1 ring-gray-950/5">
                   <div className="flex items-center gap-1.5 mb-1">
-                    <Users className="h-3.5 w-3.5 text-emerald-400" />
-                    <span className="text-xs text-slate-400">Terjual</span>
+                    <Users className="h-3.5 w-3.5 text-emerald-600" />
+                    <span className="text-xs text-gray-500">Terjual</span>
                   </div>
-                  <p className="text-lg font-bold text-slate-100">
+                  <p className="text-lg font-bold text-gray-900">
                     {event.totalSold}
                   </p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                <div className="p-3 rounded-lg bg-gray-50 ring-1 ring-gray-950/5">
                   <div className="flex items-center gap-1.5 mb-1">
-                    <Calendar className="h-3.5 w-3.5 text-amber-400" />
-                    <span className="text-xs text-slate-400">Dibuat</span>
+                    <Calendar className="h-3.5 w-3.5 text-amber-600" />
+                    <span className="text-xs text-gray-500">Dibuat</span>
                   </div>
-                  <p className="text-sm font-semibold text-slate-100 mt-0.5">
+                  <p className="text-sm font-semibold text-gray-900 mt-0.5">
                     {formatDate(event.createdAt)}
                   </p>
                 </div>
               </div>
 
               {/* Footer */}
-              <div className="relative flex items-center justify-between pt-4 border-t border-slate-800/50">
-                <span className="text-xs text-slate-500">
+              <div className="relative flex items-center justify-between pt-4 border-t border-gray-100">
+                <span className="text-xs text-gray-500">
                   {event.transactionCount} transaksi
                 </span>
                 <a
                   href={`/dashboard/panitia/events/${event.id}`}
-                  className="text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors flex items-center gap-1"
+                  className="text-xs font-medium text-indigo-600 hover:text-indigo-500 transition-colors flex items-center gap-1"
                 >
                   Kelola Event
                   <ArrowRight className="h-3 w-3" />
@@ -236,23 +227,20 @@ export default function PanitiaEventsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-gray-900/50 backdrop-blur-sm"
             onClick={() => !creating && setShowModal(false)}
           />
 
           {/* Modal */}
-          <div className="relative w-full max-w-lg rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl shadow-black/50 overflow-hidden">
-            {/* Modal gradient decoration */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-emerald-500" />
-
+          <div className="relative w-full max-w-lg rounded-xl bg-white shadow-xl overflow-hidden ring-1 ring-gray-950/5">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold text-slate-100">
+                <h3 className="text-lg font-semibold text-gray-900">
                   Buat Event Baru
                 </h3>
                 <button
                   onClick={() => !creating && setShowModal(false)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+                  className="p-1.5 rounded-lg text-gray-400 hover:text-gray-500 hover:bg-gray-50 transition-colors"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -260,15 +248,15 @@ export default function PanitiaEventsPage() {
 
               <form onSubmit={handleCreate} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                    Judul Event <span className="text-red-400">*</span>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Judul Event <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={formTitle}
                     onChange={(e) => setFormTitle(e.target.value)}
                     placeholder="Contoh: Workshop React 2026"
-                    className="w-full px-4 py-2.5 rounded-xl bg-slate-800/50 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all text-sm"
+                    className="w-full px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-sm"
                     required
                     disabled={creating}
                     autoFocus
@@ -276,7 +264,7 @@ export default function PanitiaEventsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
                     Deskripsi
                   </label>
                   <textarea
@@ -284,16 +272,16 @@ export default function PanitiaEventsPage() {
                     onChange={(e) => setFormDescription(e.target.value)}
                     placeholder="Jelaskan event Anda secara singkat..."
                     rows={4}
-                    className="w-full px-4 py-2.5 rounded-xl bg-slate-800/50 border border-slate-700 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all text-sm resize-none"
+                    className="w-full px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-sm resize-none"
                     disabled={creating}
                   />
                 </div>
 
-                <div className="flex gap-3 pt-2">
+                <div className="flex justify-end gap-3 pt-2">
                   <button
                     type="button"
                     onClick={() => !creating && setShowModal(false)}
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 text-sm font-medium hover:bg-slate-700 transition-colors"
+                    className="px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors"
                     disabled={creating}
                   >
                     Batal
@@ -301,7 +289,7 @@ export default function PanitiaEventsPage() {
                   <button
                     type="submit"
                     disabled={creating || !formTitle.trim()}
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2"
+                    className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium shadow-sm transition-all flex items-center justify-center gap-2"
                   >
                     {creating ? (
                       <>
