@@ -352,7 +352,7 @@ export default function EventManagementPage({
                       <p className="flex justify-between">
                         <span>Harga:</span>
                         <span className="font-medium text-white">
-                          Rp {ticket.price.toLocaleString("id-ID")}
+                          Rp {Number(ticket.price).toLocaleString("id-ID")}
                         </span>
                       </p>
                       <p className="flex justify-between">
