@@ -55,4 +55,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET || "fallback_secret_for_development",
+  trustHost: true,
 });
