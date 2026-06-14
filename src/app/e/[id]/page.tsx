@@ -20,12 +20,11 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
       {/* Banner */}
       <div className="relative w-full h-64 md:h-96 bg-gray-200">
         {event.bannerUrl ? (
-          <Image
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
             src={event.bannerUrl}
             alt={event.title}
-            fill
-            className="object-cover"
-            priority
+            className="w-full h-full object-cover"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200 border-b border-gray-300">
@@ -68,6 +67,21 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {event.tickets.map((ticket) => {
                 const isSoldOut = ticket.sold >= ticket.quota;
+                const percentageSold = ticket.quota > 0 ? (ticket.sold / ticket.quota) * 100 : 0;
+                
+                let quotaLabel = "Tiket Tersedia";
+                let quotaColor = "text-emerald-700 bg-emerald-50 border-emerald-200";
+
+                if (isSoldOut) {
+                  quotaLabel = "Habis Terjual";
+                  quotaColor = "text-gray-600 bg-gray-100 border-gray-200";
+                } else if (percentageSold >= 80) {
+                  quotaLabel = "Hampir Habis!";
+                  quotaColor = "text-red-700 bg-red-50 border-red-200";
+                } else if (percentageSold >= 50) {
+                  quotaLabel = "Penjualan Cepat";
+                  quotaColor = "text-amber-700 bg-amber-50 border-amber-200";
+                }
                 
                 return (
                   <div 
@@ -82,20 +96,15 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                         </span>
                       </div>
                       
-                      <div className="space-y-2 mb-6">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-500">Quota</span>
-                          <span className="text-gray-900">{ticket.quota} tickets</span>
+                      <div className="space-y-3 mb-6">
+                        <div className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold border ${quotaColor}`}>
+                          {quotaLabel}
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="w-full bg-gray-100 rounded-full h-1.5">
                           <div 
-                            className="bg-indigo-500 h-2 rounded-full" 
-                            style={{ width: `${Math.min(100, (ticket.sold / ticket.quota) * 100)}%` }}
+                            className={`h-1.5 rounded-full ${isSoldOut ? 'bg-gray-300' : percentageSold >= 80 ? 'bg-red-500' : percentageSold >= 50 ? 'bg-amber-500' : 'bg-emerald-500'}`} 
+                            style={{ width: `${Math.min(100, percentageSold)}%` }}
                           ></div>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-500">
-                          <span>{ticket.sold} Sold</span>
-                          <span>{ticket.quota - ticket.sold} Left</span>
                         </div>
                       </div>
                     </div>

@@ -54,11 +54,14 @@ model Event {
 }
 
 model SystemSetting {
-  id               String   @id @default("GLOBAL")
-  platformFee      Decimal  @default(0) // Convenience Fee global
-  freeQuotaLimit   Int      @default(150) // Batas peserta event gratis
-  paymentMethods   Json?    // Konfigurasi metode pembayaran aktif
-  updatedAt        DateTime @updatedAt
+  id                     String   @id @default("GLOBAL")
+  platformFee            Decimal  @default(0) // Convenience Fee global
+  freeQuotaLimit         Int      @default(150) // Batas peserta event gratis
+  paymentMethods         Json?    // Konfigurasi metode pembayaran aktif
+  freeMaxEvents          Int      @default(1)
+  freeMaxTicketsPerEvent Int      @default(3)
+  freeCustomFormEnabled  Boolean  @default(false)
+  updatedAt              DateTime @updatedAt
 }
 
 model Ticket {

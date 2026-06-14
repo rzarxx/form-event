@@ -69,6 +69,21 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check Free Tier Limitation
+    const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+    if (user?.role === "PANITIA" && !user.referredByCode) {
+      const settings = await prisma.systemSetting.findUnique({ where: { id: "GLOBAL" } });
+      const maxEvents = settings?.freeMaxEvents ?? 1;
+      
+      const currentEvents = await prisma.event.count({ where: { userId: session.user.id } });
+      if (currentEvents >= maxEvents) {
+        return NextResponse.json(
+          { error: `Batas akun gratis tercapai (Maksimal ${maxEvents} event). Hubungi Admin untuk upgrade.` },
+          { status: 403 }
+        );
+      }
+    }
+
     const event = await prisma.event.create({
       data: {
         title: title.trim(),

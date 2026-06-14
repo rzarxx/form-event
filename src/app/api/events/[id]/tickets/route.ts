@@ -54,6 +54,21 @@ export async function POST(
       );
     }
 
+    // Check Free Tier Limitation
+    const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+    if (user?.role === "PANITIA" && !user.referredByCode) {
+      const settings = await prisma.systemSetting.findUnique({ where: { id: "GLOBAL" } });
+      const maxTickets = settings?.freeMaxTicketsPerEvent ?? 3;
+      
+      const currentTickets = await prisma.ticket.count({ where: { eventId: id } });
+      if (currentTickets >= maxTickets) {
+        return NextResponse.json(
+          { error: `Batas akun gratis tercapai (Maksimal ${maxTickets} tipe tiket per event). Hubungi Admin untuk upgrade.` },
+          { status: 403 }
+        );
+      }
+    }
+
     const newTicket = await prisma.ticket.create({
       data: {
         eventId: id,

@@ -310,7 +310,8 @@ export default function CheckoutPage({ params }: { params: Promise<{ eventId: st
               <div className="flex gap-4 mb-6 pb-6 border-b border-gray-200">
                 <div className="w-16 h-16 bg-gray-100 rounded-xl flex-shrink-0 relative overflow-hidden">
                   {event.bannerUrl ? (
-                    <Image src={event.bannerUrl} alt="Event" fill className="object-cover" />
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={event.bannerUrl} alt="Event" className="w-full h-full object-cover" />
                   ) : (
                     <Calendar className="w-8 h-8 text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
                   )}

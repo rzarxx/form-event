@@ -15,6 +15,9 @@ export async function GET() {
       id: "GLOBAL",
       platformFee: 0,
       freeQuotaLimit: 150,
+      freeMaxEvents: 1,
+      freeMaxTicketsPerEvent: 3,
+      freeCustomFormEnabled: false,
     },
   });
 
@@ -29,7 +32,13 @@ export async function PUT(request: Request) {
 
   try {
     const body = await request.json();
-    const { platformFee, freeQuotaLimit } = body;
+    const { 
+      platformFee, 
+      freeQuotaLimit,
+      freeMaxEvents,
+      freeMaxTicketsPerEvent,
+      freeCustomFormEnabled
+    } = body;
 
     const updateData: Record<string, unknown> = {};
 
@@ -53,6 +62,16 @@ export async function PUT(request: Request) {
         );
       }
       updateData.freeQuotaLimit = quota;
+    }
+
+    if (freeMaxEvents !== undefined) {
+      updateData.freeMaxEvents = Number(freeMaxEvents);
+    }
+    if (freeMaxTicketsPerEvent !== undefined) {
+      updateData.freeMaxTicketsPerEvent = Number(freeMaxTicketsPerEvent);
+    }
+    if (freeCustomFormEnabled !== undefined) {
+      updateData.freeCustomFormEnabled = Boolean(freeCustomFormEnabled);
     }
 
     const settings = await prisma.systemSetting.update({

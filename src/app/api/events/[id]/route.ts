@@ -70,6 +70,20 @@ export async function PUT(
     const body = await request.json();
     const { title, description, formSchema } = body;
 
+    // Check Free Tier Limitation for Custom Form
+    if (formSchema !== undefined) {
+      const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+      if (user?.role === "PANITIA" && !user.referredByCode) {
+        const settings = await prisma.systemSetting.findUnique({ where: { id: "GLOBAL" } });
+        if (!settings?.freeCustomFormEnabled) {
+          return NextResponse.json(
+            { error: "Akun gratis tidak dapat mengubah Custom Form Pendaftaran. Hubungi Admin untuk upgrade." },
+            { status: 403 }
+          );
+        }
+      }
+    }
+
     const updated = await prisma.event.update({
       where: { id },
       data: {

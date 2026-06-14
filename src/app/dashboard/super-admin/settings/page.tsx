@@ -23,16 +23,22 @@ export default function SystemSettingsPage() {
 
   const [platformFee, setPlatformFee] = useState("");
   const [freeQuotaLimit, setFreeQuotaLimit] = useState("");
+  const [freeMaxEvents, setFreeMaxEvents] = useState("");
+  const [freeMaxTicketsPerEvent, setFreeMaxTicketsPerEvent] = useState("");
+  const [freeCustomFormEnabled, setFreeCustomFormEnabled] = useState(false);
 
   const fetchSettings = useCallback(async () => {
     try {
       setLoading(true);
       const res = await fetch("/api/admin/settings");
       if (!res.ok) throw new Error("Failed to fetch settings");
-      const data: SystemSettings = await res.json();
+      const data = await res.json();
       setSettings(data);
-      setPlatformFee(String(data.platformFee));
-      setFreeQuotaLimit(String(data.freeQuotaLimit));
+      setPlatformFee(String(data.platformFee || 0));
+      setFreeQuotaLimit(String(data.freeQuotaLimit || 150));
+      setFreeMaxEvents(String(data.freeMaxEvents ?? 1));
+      setFreeMaxTicketsPerEvent(String(data.freeMaxTicketsPerEvent ?? 3));
+      setFreeCustomFormEnabled(Boolean(data.freeCustomFormEnabled));
     } catch (err) {
       console.error("Error fetching settings:", err);
       showToast("error", "Gagal memuat pengaturan sistem");
@@ -59,6 +65,9 @@ export default function SystemSettingsPage() {
         body: JSON.stringify({
           platformFee: Number(platformFee),
           freeQuotaLimit: Number(freeQuotaLimit),
+          freeMaxEvents: Number(freeMaxEvents),
+          freeMaxTicketsPerEvent: Number(freeMaxTicketsPerEvent),
+          freeCustomFormEnabled: freeCustomFormEnabled
         }),
       });
 
@@ -178,6 +187,63 @@ export default function SystemSettingsPage() {
               Jumlah maksimum peserta untuk event dengan tiket gratis (tanpa kode
               referral)
             </p>
+          </div>
+        </div>
+
+        <div className="p-6 border-t border-gray-200">
+          <h2 className="text-base font-semibold text-gray-900">
+            Pembatasan Akun Gratis (Panitia)
+          </h2>
+          <p className="text-xs text-gray-500 mt-1">
+            Fitur yang dibatasi untuk pengguna yang belum memiliki kode referral Mitra.
+          </p>
+        </div>
+
+        <div className="p-6 space-y-6 pt-0">
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">
+              Batas Maksimal Event Aktif
+            </label>
+            <input
+              type="number"
+              min="1"
+              step="1"
+              value={freeMaxEvents}
+              onChange={(e) => setFreeMaxEvents(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 transition-all shadow-sm"
+              placeholder="1"
+            />
+            <p className="text-xs text-gray-500 mt-1.5">
+              Batas event yang bisa dibuat oleh satu akun gratis.
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">
+              Batas Tipe Tiket per Event
+            </label>
+            <input
+              type="number"
+              min="1"
+              step="1"
+              value={freeMaxTicketsPerEvent}
+              onChange={(e) => setFreeMaxTicketsPerEvent(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 transition-all shadow-sm"
+              placeholder="3"
+            />
+          </div>
+
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              id="freeCustomFormEnabled"
+              checked={freeCustomFormEnabled}
+              onChange={(e) => setFreeCustomFormEnabled(e.target.checked)}
+              className="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+            />
+            <label htmlFor="freeCustomFormEnabled" className="text-sm font-medium text-gray-900">
+              Izinkan Form Pendaftaran Kustom
+            </label>
           </div>
         </div>
 
