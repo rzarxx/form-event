@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String      @id @default(uuid())
+  role           String      // "SUPER_ADMIN" | "PANITIA" | "MITRA" | "SCANNER"
+  email          String      @unique
+  password       String
+  name           String?
+  referredByCode String?     // Menyimpan kode referral saat mendaftar
+  
+  // Hubungan antara Scanner dan Panitia
+  panitiaId      String?
+  panitia        User?       @relation("ScannerToPanitia", fields: [panitiaId], references: [id])
+  scanners       User[]      @relation("ScannerToPanitia")
+  
+  events         Event[]
+  referrals      Referral[]  // Jika user ini adalah MITRA
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model Referral {
+  id             String   @id @default(uuid())
+  code           String   @unique // Contoh: "BEMJAGO2026"
+  ownerId        String   // FK ke User (MITRA)
+  owner          User     @relation(fields: [ownerId], references: [id])
+  commission     Decimal  @default(0) // Total komisi terkumpul
+  usageCount     Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Event {
+  id               String        @id @default(uuid())
+  userId           String        // Panitia
+  user             User          @relation(fields: [userId], references: [id])
+  title            String
+  description      String?
+  bannerUrl        String?
+  subdomain        String?       @unique
+  isProFree        Boolean       @default(false) // True jika pakai kode referral
+  formSchema       Json?    
+  tickets          Ticket[]
+  transactions     Transaction[]
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model SystemSetting {
+  id               String   @id @default("GLOBAL")
+  platformFee      Decimal  @default(0) // Convenience Fee global
+  freeQuotaLimit   Int      @default(150) // Batas peserta event gratis
+  paymentMethods   Json?    // Konfigurasi metode pembayaran aktif
+  updatedAt        DateTime @updatedAt
+}
+
+model Ticket {
+  id               String        @id @default(uuid())
+  eventId          String
+  event            Event         @relation(fields: [eventId], references: [id])
+  name             String
+  price            Decimal       @default(0)
+  quota            Int           @default(0)
+  sold             Int           @default(0)
+  transactions     Transaction[]
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model Transaction {
+  id               String   @id @default(uuid())
+  eventId          String
+  event            Event    @relation(fields: [eventId], references: [id])
+  ticketId         String
+  ticket           Ticket   @relation(fields: [ticketId], references: [id])
+  buyerName        String
+  buyerEmail       String
+  buyerPhone       String?
+  paymentStatus    String   // "PENDING" | "SUCCESS" | "FAILED"
+  paymentMethod    String?
+  paymentRef       String?  // Tripay Reference
+  ticketCode       String   @unique
+  qrSignature      String   @unique // Anti-Tamper HMAC
+  checkInStatus    Boolean  @default(false)
+  formData         Json?    // Data formulir kustom
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
